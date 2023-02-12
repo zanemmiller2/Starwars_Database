@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Modified from starter code provided in exploration from bsg_app-->
+    <head>
+        <title>Planets</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <h1>Regions Read Only Table</h1>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+
+        <div id="browse">
+            <table class="center" border="1" cellPadding="5" >
+                {% if regions %}
+                <thead>
+                    <tr>
+                        <!-- Make the column header row -->
+                        {% for key in regions[0].keys() %}
+                        <th scope="col"
+                            data-field="{{ key }}"
+                            data-filter-control="input">
+                            {{ key }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                <!-- populate the table with data from db -->
+                <tbody>
+                    {% for item in regions %}
+                    <tr>
+                        {% for key in item.keys() %}
+                        <td> {{item[key]}}</td>
+                        {% endfor %}
+
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+            </table>
+            <p>&nbsp;</p>
+        </div>
+        {% endblock %}
+    </body>
+</html>

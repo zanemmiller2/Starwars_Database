@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<!-- Modified from starter code provided in exploration from bsg_app-->
+
+<head>
+  <title>Character Ships</title>
+  <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+  <script language="JavaScript">
+    function showform(dowhat) {
+      /*
+      * two DIVS: browse, insert, update, delete
+      * this function sets one visible the others not
+      */
+      if (dowhat == 'insert') {
+        document.getElementById('browse').style.display = 'none';
+        document.getElementById('insert').style.display = 'block';
+        document.getElementById('update').style.display = 'none';
+        document.getElementById('delete').style.display = 'none';
+      }
+      else { //by default display browse
+        document.getElementById('browse').style.display = 'block';
+        document.getElementById('insert').style.display = 'none';
+        document.getElementById('update').style.display = 'none';
+        document.getElementById('delete').style.display = 'none';
+      }
+    }
+    function newCharacter_Ships() { showform('insert'); }
+    function browseCharacter_Ships() { showform('browse'); }
+  </script>
+</head>
+
+<body onload="browseCharacter_Ships()"></body>
+<h1>Character Ships</h1>
+{% extends "nav_bar.html" %}
+{% block content %}
+<p></p>
+<!-- Browse Character Ship -->
+<div id="browse">
+  <p><a class="button-49" href="#" onclick="newCharacter_Ships()">Add New Character Ship</a></p>
+  {% with messages = get_flashed_messages() %}
+    {%  if  messages %}
+      {%  for  message  in  messages %} 
+      <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{message}}
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <table border="1" cellpadding="5" class="center">
+    {% if character_ship_data %}
+    <thead>
+      <tr>
+        <!-- Iterate through each key in the first entry to get the column name -->
+        {% for key in character_ship_data[0].keys() %}
+        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+        <!-- End of this for loop -->
+        {% endfor %}
+        <th></th>
+        <th></th>
+      </tr>
+
+    <tbody>
+      {% for item in character_ship_data %}
+      <tr>
+        {% for key in item.keys() %}
+        <td> {{item[key]}} </td>
+        {% endfor %}
+        <td><a class="button-49" name="edit_character_ship"
+            href="edit_character_ship/{{item['Character ID']}}/{{item['Ship ID']}}">Edit</a></td>
+        <td><a class="button-49" name="delete_character_ship"
+            href="delete_character_ship/{{item['Character ID']}}/{{item['Ship ID']}}">Delete</a></td>
+      </tr>
+      </tr>
+      {% endfor %}
+      {% endif %}
+  </table>
+  <p>&nbsp;</p>
+</div>
+<!-- Insert Character Ship -->
+<div id="insert">
+  <form method="POST" id="insertCharacterShip" action="" class="center">
+    <legend><strong>Add Character Ship</strong></legend>
+    <fieldset class="fields">
+      <label> Character </label> <select name="character_name" required>
+        <option value="">&nbsp;</option>
+        {% for character in characters_dropdown %}
+        <option value="{{ character['character_id'] }}"> {{character['character_name']}}</option>
+        <!-- End of this for loop -->
+        {% endfor %}
+      </select>
+      <label> Ship </label> <select name="ship_name" required>
+        <option value="">&nbsp;</option>
+        <!-- Build dropdown select for Ships -->
+        {% for ship in ships_data_dropdown %}
+        <option value="{{ ship['ship_id'] }}"> {{ship['ship_name']}}</option>
+        <!-- End of this for loop -->
+        {% endfor %}
+      </select>
+    </fieldset>
+    <input class="button-49" type="submit" name="AddShipsButton" value="Add Character Ship" style="width:300px">
+    <a href='/ships'><input class="button-49" type="button" value="Cancel" href="/ships"></a>
+  </form>
+</div>
+{% endblock %}
+</body>
+
+</html>

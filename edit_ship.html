@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<!-- Modified from starter code provided in exploration from bsg_app-->
+
+<head>
+  <title>Edit Ship</title>
+  <link href="../static/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body> {% extends "nav_bar.html" %}
+  {% block content %}
+  <div id="update">
+    <form method="POST" id="updateShips" action="/edit_ship/{{ship_data[0]['Ship ID']}}" class="center">
+      <legend><strong>Update Ship</strong></legend>
+      <fieldset class="fields">
+        <input type="hidden" name="Ships_id" id="updateShipsID" value="1">
+        <label> Ships ID: {{ship_data[0]['Ship ID']}}</label>
+        <label> Ships Name </label> <input type="text" name="ship_name" value="{{ship_data[0]['Ship Name']}}" required>
+        <label> Ship Type </label> <select name="ship_type">
+          <option value="0">&nbsp;</option>
+          <!-- Build dropdown select for Ships -->
+          {% for ship_type in ship_types %}
+          <!-- Preselect item if found the Ship were editing-->
+          {% if ship_type['Ship Classification'] == ship_data[0]['Ship Classification'] %}
+          <option value="{{ ship_type['ship_classification_id'] }}" selected> {{ship_type['Ship Classification']}}
+          </option>
+          {% else %}
+          <option value="{{ ship_type['ship_classification_id'] }}"> {{ship_type['Ship Classification']}}</option>
+          {% endif %}
+          <!-- End of this for loop -->
+          {% endfor %}
+        </select>
+      </fieldset>
+      <input class="button-49" type="submit" name="UpdateShipsButton" value="Edit Ship">
+      <a href='/ships'><input class="button-49" type="button" value="Cancel" href="/ships"></a>
+    </form>
+  </div>
+  {% endblock %}
+</body>
+
+</html>

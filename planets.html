@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Modified from starter code provided in exploration from bsg_app-->
+    <head>
+        <title>Planets</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+        <script language="JavaScript">
+            function showform(dowhat) {
+                if (dowhat === 'insert') {
+                    document.getElementById('browse').style.display = 'none';
+                    document.getElementById('insert').style.display = 'block';
+                } else { //by default display browse
+                    document.getElementById('browse').style.display = 'block';
+                    document.getElementById('insert').style.display = 'none';
+                }
+            }
+            function newPlanet() {
+                showform('insert');
+            }
+
+            function browsePlanets() {
+                showform('browse');
+            }
+        </script>
+    </head>
+
+
+    <body onload="browsePlanets()">
+        <h1>Planets</h1>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+
+        <div id="search">
+            <form method="post" action="/search-planets"
+                  style="margin:auto; max-width:600px">
+                <label for="search_parameter"></label>
+                <input style="box-sizing: content-box; width: 200px; height: 50px; font-size: large; border-color: black"
+                                                             type="text"
+                                                             placeholder="Search by any attribute"
+                                                             name="search_parameter"
+                                                             id="search_parameter">
+                <button class="button-49" style="scale:80%;" role="button">
+                    Search
+                </button>
+            </form>
+        </div>
+
+        <div id="reset">
+            <form method="GET" action="/planets"
+                  style="margin:auto;max-width:600px">
+                <button class="button-49" style="scale:80%;" role="button">
+                    Reset
+                </button>
+            </form>
+        </div>
+
+        <div id="browse">
+            <p><a class="button-49" href="#" onclick="newPlanet()">Add New
+                                                                   Planet</a>
+            </p>
+            <table border="1" cellpadding="5" class="center">
+                <!-- Access data tuple passed from app.py -->
+                {% if planets %}
+                <thead>
+                    <tr>
+                        {% for key in planets[0].keys() %}
+                        <th scope="col"
+                            data-field="{{ key }}"
+                            data-filter-control="input">
+                            {{ key }}
+                        </th>
+                        <!-- End of this for loop -->
+                        {% endfor %}
+                    </tr>
+
+                <tbody>
+                    {% for item in planets %}
+                    <tr>
+                        {% for key in item.keys() %}
+
+                        <td> {{item[key]}}</td>
+                        {% endfor %}
+
+                        <!-- Create our edit/delete buttons -->
+                        <td><a href="edit_planet/{{item['Planet ID']}}"
+                               class="button-49">Edit</a></td>
+                        <td><a href="delete_planet/{{item['Planet ID']}}"
+                               class="button-49">Delete</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+            </table>
+            <p></p>
+        </div>
+
+        <div id="insert">
+            <form method="POST"
+                  id="insertPlanet"
+                  action="/planets"
+                  class="center">
+                <strong>Add Planet</strong>
+                <fieldset class="fields">
+                    <label> Planet Name
+                        <input type="text"
+                               name="planet_name"
+                               pattern="[A-Za-z]{1,}{ }"
+                               placeholder=""
+                               required>
+                        </label>
+
+                    <label> Region
+                        <select name="region" required>
+                            {% for region in regions %}
+                            <option value={{region.region_id}}>
+                                {{region.region_name}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </label>
+
+                    <label> Description
+                        <textarea name="planet_description" cols="25"
+                                  rows="5"></textarea>
+                    </label>
+
+                    <label> First Appearance <select name="media_id"
+                                                     required>
+                        <option value=""></option>
+                        <option value="-1">No First Appearance</option>
+                        {% for appearance in media %}
+                        <option value={{appearance['media_id']}}>
+                            {{appearance['media_name']}}
+                        </option>
+                        {% endfor %}
+                        <option value="-2">Other</option>
+                    </select>
+                    </label>
+
+                </fieldset>
+
+                <input class="button-49small"
+                       type="submit"
+                       id="Add_planet"
+                       value="Add Planet">
+                <input class="button-49small" type="button" value="Cancel"
+                       onclick="browsePlanets()">
+            </form>
+        </div>
+        {% endblock %}
+    </body>
+</html>
+

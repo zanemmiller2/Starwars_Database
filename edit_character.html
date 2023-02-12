@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<!-- Modified from starter code provided in exploration from bsg_app-->
+
+<head>
+    <title>Edit Character</title>
+    <link href="../static/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body> {% extends "nav_bar.html" %}
+    {% block content %}
+    <div id="update">
+        <form method="POST" id="updateCharacter" action="" class="center">
+            <legend><strong>Update Character</strong></legend>
+            <fieldset class="fields">
+                <label> Character Name: </label> <input type="text" value="{{character_data[0]['character_name']}}"
+                    class="form-control" id="character_name" name="character_name" pattern="[A-Za-z]{1, }" required>
+                <label> Home Planet: </label> <select name="character_home_planet" required>
+                    {% if character_data[0]['planet_name'] == None %}
+                    <option value="-1" selected>No Home Planet</option>
+                    {% else %}
+                    <option value="-1">No Home Planet</option>
+                    {% endif %}
+                    <!-- Build dropdown select for Planets -->
+                    {% for planet in planet_data_dropdown %}
+                    <!-- Preselect item if found the Planet were editing-->
+                    {% if planet['planet_name'] == character_data[0]['planet_name'] %}
+                    <option value="{{ planet['planet_id'] }}" selected> {{planet['planet_name']}}</option>
+                    {% else %}
+                    <option value="{{ planet['planet_id'] }}"> {{planet['planet_name']}}</option>
+                    {% endif %}
+                    <!-- End of this for loop -->
+                    {% endfor %}
+                </select>
+                <label> First Appearance: </label> <select name="character_first_appearance">
+                    {% if character_data[0]['media_name'] == None %}
+                    <option value="-1" selected>No First Appearance</option>
+                    {% else %}
+                    <option value="-1">No First Appearance</option>
+                    {% endif %}
+                    <!-- Build dropdown select for Media -->
+                    {% for media in media_data_dropdown %}
+                    <!-- Preselect item if found the Media were editing-->
+                    {% if media['media_name'] == character_data[0]['media_name'] %}
+                    <option value="{{ media['media_id'] }}" selected> {{media['media_name']}}</option>
+                    {% else %}
+                    <option value="{{ media['media_id'] }}"> {{media['media_name']}}</option>
+                    {% endif %}
+                    <!-- End of this for loop -->
+                    {% endfor %}
+                </select>
+                <label> Species: </label> <select name="character_species" required>
+                    <option></option>
+                    <!-- Build dropdown select for Species -->
+                    {% for species in species_data_dropdown %}
+                    <!-- Preselect item if found the Species were editing-->
+                    {% if species['classification'] == character_data[0]['classification'] %}
+                    <option value="{{ species['species_id'] }}" selected> {{species['classification']}}</option>
+                    {% else %}
+                    <option value="{{ species['species_id'] }}">
+                        {{species['classification']}}
+                    </option>
+                    {% endif %}
+                    <!-- End of this for loop -->
+                    {% endfor %}
+                </select>
+                <label>Birth Year: </label>
+                <input value="{{character_data[0]['Birth Year']}}" type="text" name="character_birth_year"
+                    pattern="[A-Za-z]{1, }" placeholder="">
+
+            </fieldset>
+            <input class="button-49" type="submit" id="UpdateSaveCharacter" value="Edit Character" style="width:200px">
+            <a href="/characters"><input class="button-49" type="button" value="Cancel Edit"></a>
+        </form>
+        {% endblock %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<!-- Modified from starter code provided in exploration from bsg_app-->
+
+<head>
+    <title>Delete Character Ship</title>
+    <link href="/static/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    {% extends "nav_bar.html" %}
+    {% block content %}
+    <div id="edit">
+        <form id="editCharacterAffiliation"
+            action="/edit_character_affiliation/{{character_data[0]['character_id']}}/{{character_data[0]['affiliation_id']}}"
+            method="post" class="center">
+            <legend><strong>Edit Character Affiliation</strong></legend>
+            <fieldset>
+                <label for="character">Character:</label>
+                <input type="hidden" name="old_character_id" value="{{character_data[0]['character_id']}}">
+                <select name="new_character_id">
+                    <!-- Build dropdown select for Characters -->
+                    {% for character in character_data_dropdown %}
+                    <!-- Preselect item if found the Character were editing-->
+                    {% if character_data[0]['character_id'] == character['character_id'] %}
+                    <option value={{character.character_id}} selected>
+                        {{character.character_name}}
+                    </option>
+                    {% else %}
+                    <option value={{character.character_id}}>
+                        {{character.character_name}}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+
+                <label> Affiliation </label>
+                <input type="hidden" name="old_affiliation_id" value="{{character_data[0]['affiliation_id']}}">
+                <select name="new_affiliation_id">
+                    <!-- Build dropdown select for Affiliations -->
+                    {% for affiliation in affiliation_data_dropdown %}
+                    <!-- Preselect item if found the Affiliation were editing-->
+                    {% if character_data[0]['affiliation_id'] == affiliation['affiliation_id'] %}
+                    <option value={{affiliation.affiliation_id}} selected>
+                        {{affiliation.affiliation}}
+                    </option>
+                    {% else %}
+                    <option value={{affiliation.affiliation_id}}>
+                        {{affiliation.affiliation}}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </fieldset>
+            <input type="submit" value="Edit Character Affiliation" name="edit_character_affiliation" class="button-49"
+                style="width:350px">
+            <a href='/character_affiliations'><input class="button-49" type="button" value="Cancel Edit"></a>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+
+</html>

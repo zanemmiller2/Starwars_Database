@@ -1,0 +1,17 @@
+<html lang="en">
+    <head>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+        <title></title>
+    </head>
+    <body>
+        <nav class="navbar backgroundImage">
+            {% for item in nav.top %}
+            <a class="linknav focusnav activenav visitednav"
+               href="{{ item.url }}">{{ item.label }} | </a>
+            {% endfor %}
+        </nav>
+    </body>
+    {% block content %}
+    {% endblock %}
+</html>
+

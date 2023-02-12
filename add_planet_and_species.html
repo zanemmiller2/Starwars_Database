@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Edit Planet</title>
+    <link href="../static/style.css" rel="stylesheet" type="text/css" />
+</head>
+    <body>
+<div id="insert">
+    <form method="POST" id="insertMedia" action="/add-planet-and-species">
+        <legend><strong>Add Species and Planet</strong></legend>
+        <fieldset class="fields">
+
+            <label>Species Classification</label> <input type="text"
+                                                         id="species_classification"
+                                                         name="species_classification"
+                                                         value="{{new_species_classification}}"
+                                                         readonly>
+
+            <label> Planet Name </label> <input type="text" name="planet_name"
+                                                pattern="[A-Za-z]{1, }"
+                                                placeholder="" required>
+
+            <label> Region </label> <select name="region" required>
+            {% for region in regions_data %}
+            <option value={{region.region_id}}>{{region.region_name}}</option>
+            {% endfor %}
+        </select>
+
+            <label> Description </label> <textarea name="planet_description"
+                                                   cols="25"
+                                                   rows="5"></textarea>
+
+            <label> First Appearance </label> <select name="media_id" required>
+            <option value=""></option>
+            <option value="-1">No First Appearance</option>
+            {% for appearance in media %}
+            <option value={{appearance['media_id']}}>
+                {{appearance['media_name']}}
+            </option>
+            {% endfor %}
+        </select>
+
+        </fieldset>
+        <input class="btn"
+               type="submit"
+               id="Add_Species_and_Planet"
+               value="Add Species and Planet">
+        <input class="btn"
+               type="button"
+               value="Go Back"
+               onclick="history.back()">
+    </form>
+</div>
+    </body>
+</html>

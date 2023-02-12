@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <!-- Modified from starter code provided in exploration from bsg_app-->
+<head>
+    <title>Characters</title>
+    <link href="#" rel="stylesheet" type="text/css" />
+    <script language="JavaScript">
+            function showform(dowhat) {
+                /*
+                * two DIVS: browse, insert
+                * this function sets one visible the others not
+                */
+                if (dowhat == 'insert'){
+                    document.getElementById('browse').style.display = 'none';
+                    document.getElementById('insert').style.display = 'block';
+                    document.getElementById('update').style.display = 'none';
+                    document.getElementById('delete').style.display = 'none';
+                }
+                else { //by default display browse Characters
+                    document.getElementById('browse').style.display = 'block';
+                    document.getElementById('insert').style.display = 'none';
+                    document.getElementById('update').style.display = 'none';
+                    document.getElementById('delete').style.display = 'none';
+                }
+            }
+        function newCharacter() { showform('insert'); }
+        function browseCharacters() { showform ('browse'); }
+    </script>
+</head>
+
+<body onload="browseCharacters()">
+    <h1>Characters</h1>
+    {% extends "nav_bar.html" %}
+    {% block content %}
+    <p></p>
+ <!-- Browse Characters -->
+<div id="browse">
+    <p><a class="button-49" href="#" onclick="newCharacter()">Add New Character</a></p>
+    <table  border="1" cellpadding="5" class="center">
+    {% if character_data %}
+        <thead>
+            <tr>  
+        <!-- Iterate through each key in the first entry to get the column name -->
+        {% for key in character_data[0].keys() %}
+                
+        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+            
+        <!-- End of this for loop -->
+        {% endfor %}  
+    <th></th>
+    <th></th> 
+    </tr>
+    <tbody>
+        <!-- Now, iterate through every item in data -->
+        {% for item in character_data %}
+        <tr>
+        <!-- Then iterate through every key in the current item dictionary -->
+        {% for key in item.keys() %}
+        <!-- Create a <td> element with the value of that key in it -->
+        <td> {{item[key]}} </td> 
+        {% endfor %}
+        <td><a class="button-49" name="edit_Characters" href="edit_character/{{item['Character ID']}}">Edit</a></td>
+        <td><a class="button-49" name="delete_Characters" href="delete_character/{{item['Character ID']}}">Delete</a></td>
+        </tr> 
+        {% endfor %} 
+    {% endif %}
+    </table>
+<p>&nbsp;</p>
+</div>
+<!-- Insert new Character -->
+<div id="insert">
+    <form method="POST" id="insertCharacter" action="" class="center">
+        <legend><strong>Add Character</strong></legend>
+          <fieldset class="fields">
+            <label> Character Name </label> <input type="text" name="character_name" value="" pattern="[A-Za-z]{1, }" placeholder="" required>
+            <label> Home Planet </label> <select name="character_home_planet" required>
+                <option value=""></option>
+                <!-- Build dropdown select for Planets -->
+                <option value="-1">No Home Planet</option>
+            	{% for planet in planet_data %}
+                    <option value="{{ planet['planet_id'] }}"> {{planet['planet_name']}}</option> 
+                      <!-- End of this for loop -->
+                      {% endfor %}
+                </select>
+            <label> First Appearance </label> <select name="character_first_appearance">
+                <option value=""></option>
+                <option value="-1">No First Appearance</option>
+                <!-- Build dropdown select for Media -->
+            	{% for media in media_data %}
+                    <option value="{{ media['media_id'] }}"> {{media['media_name']}}</option> 
+                      <!-- End of this for loop -->
+                      {% endfor %}
+                </select>
+            <label> Species </label> <select name="character_species" required>
+                <option value=""></option>
+                <!-- Build dropdown select for Species -->
+                {% for species in species_data %}
+                    <option value="{{ species['species_id'] }}"> {{species['classification']}}</option> 
+                      <!-- End of this for loop -->
+                      {% endfor %}
+                </select>
+                    <label>Birth Year</label> <input type="text"
+                                                     name="character_birth_year"
+                                                     pattern="[A-Za-z]{1, }"
+                                                     placeholder="">
+
+      </fieldset>
+          <input class="button-49" type="submit" id="Add_character" value="Add Character" style="width:300px">
+          <input class="button-49" type="button" value="Cancel" onclick="browseCharacters()">
+	</form>
+</div>
+{% endblock %}
+
+    </body>
+</html>

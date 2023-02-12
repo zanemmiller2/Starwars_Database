@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<!-- Modified from starter code provided in exploration from bsg_app-->
+<h1>Ship Classifications - Read Only Table</h1>
+{% extends "nav_bar.html" %}
+{% block content %}
+<!-- Browse Ship Classifications -->
+<div id="browse">
+  <table border="1" cellpadding="5" class="center">
+    {% if ship_data %}
+    <thead>
+      <tr>
+        <!-- Iterate through each key in the first entry to get the column name -->
+        {% for key in ship_data[0].keys() %}
+        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+        <!-- End of this for loop -->
+        {% endfor %}
+      </tr>
+
+    <tbody>
+      <!-- Now, iterate through every item in data -->
+      {% for item in ship_data %}
+      <tr>
+        <!-- Then iterate through every key in the current item dictionary -->
+        {% for key in item.keys() %}
+        <!-- Create a <td> element with the value of that key in it -->
+        <td> {{item[key]}} </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      {% endif %}
+  </table>
+  <p>&nbsp;</p>
+</div>
+{% endblock %}
+</body>
+
+</html>

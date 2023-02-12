@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<!-- Modified from starter code provided in exploration from bsg_app-->
+
+<head>
+    <title>Edit Character Ship</title>
+    <link href="/static/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body> {% extends "nav_bar.html" %}
+    {% block content %}
+    <div id="edit">
+        <form id="editCharacterShip"
+            action="/edit_character_ship/{{character_data[0]['character_id']}}/{{character_data[0]['ship_id']}}"
+            method="post" class="center">
+            <legend><strong>Edit Character Ship</strong></legend>
+            <fieldset>
+                <label for="character">Character:</label>
+                <input type="hidden" name="old_character_id" value="{{character_data[0]['character_id']}}">
+                <select name="new_character_id">
+                    <!-- Build dropdown select for Characters -->
+                    {% for character in character_data_dropdown %}
+                    <!-- Preselect item if found the Characters were editing-->
+                    {% if character_data[0]['character_id'] == character['character_id'] %}
+                    <option value={{character.character_id}} selected>
+                        {{character.character_name}}
+                    </option>
+                    {% else %}
+                    <option value={{character.character_id}}>
+                        {{character.character_name}}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <label> Ship </label>
+                <input type="hidden" name="old_ship_id" value="{{character_data[0]['ship_id']}}">
+                <select name="new_ship_id">
+                    <!-- Build dropdown select for Ships -->
+                    {% for ship in ship_data_dropdown %}
+                    <!-- Preselect item if found the Ships were editing-->
+                    {% if character_data[0]['ship_id'] == ship['ship_id'] %}
+                    <option value={{ship.ship_id}} selected>
+                        {{ship.ship_name}}
+                    </option>
+                    {% else %}
+                    <option value={{ship.ship_id}}>
+                        {{ship.ship_name}}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </fieldset>
+            <input type="submit" value="Edit Characters Ship" name="edit_character_ship" class="button-49"
+                style="width:300px">
+            <a href='/character_ships'><input class="button-49" type="button" value="Cancel Edit"></a>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+
+</html>

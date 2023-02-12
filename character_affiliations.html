@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<!-- Modified from starter code provided in exploration from bsg_app-->
+
+<head>
+  <title>Character Affiliations</title>
+  <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+  <script language="JavaScript">
+    function showform(dowhat) {
+      /*
+      * two DIVS: browse, insert
+      * this function sets one visible the others not
+      */
+      if (dowhat == 'insert') {
+        document.getElementById('browse').style.display = 'none';
+        document.getElementById('insert').style.display = 'block';
+        document.getElementById('update').style.display = 'none';
+        document.getElementById('delete').style.display = 'none';
+      }
+      else { //by default display browse
+        document.getElementById('browse').style.display = 'block';
+        document.getElementById('insert').style.display = 'none';
+        document.getElementById('update').style.display = 'none';
+        document.getElementById('delete').style.display = 'none';
+      }
+    }
+    function newCharacter_Affiliation() { showform('insert'); }
+    function browseCharacter_Affiliations() { showform('browse'); }
+  </script>
+</head>
+
+<body onload="browseCharacter_Affiliations()"></body>
+<h1>Character Affiliations</h1>
+{% extends "nav_bar.html" %}
+{% block content %}
+<p></p>
+<!-- Browse Character Affiliations -->
+<div id="browse">
+  <p><a class="button-49" href="#" onclick="newCharacter_Affiliation()">New Character Affiliation</a></p>
+  {% with messages = get_flashed_messages() %}
+    {%  if  messages %}
+      {%  for  message  in  messages %} 
+      <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{message}}
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <table border="1" cellpadding="5" class="center">
+    {% if affiliation_data %}
+    <thead>
+      <tr>
+        <!-- Iterate through each key in the first entry to get the column name -->
+        {% for key in affiliation_data[0].keys() %}
+        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+        <!-- End of this for loop -->
+        {% endfor %}
+        <th></th>
+        <th></th>
+      </tr>
+    <tbody>
+      <!-- Now, iterate through every item in data -->
+      {% for item in affiliation_data %}
+      <tr>
+        <!-- Then iterate through every key in the current item dictionary -->
+        {% for key in item.keys() %}
+        <!-- Create a <td> element with the value of that key in it -->
+        <td> {{item[key]}} </td>
+        {% endfor %}
+        <td><a class="button-49" name="edit_character_affiliation"
+            href="edit_character_affiliation/{{item['Character ID']}}/{{item['Affiliation ID']}}">Edit</a></td>
+        <td><a class="button-49" name="delete_character_affiliation"
+            href="delete_character_affiliation/{{item['Character ID']}}/{{item['Affiliation ID']}}">Delete</a></td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+  </table>
+  <p>&nbsp;</p>
+</div>
+<!-- Insert Character Affiliation -->
+<div id="insert">
+  <form method="POST" id="newCharacter_Affiliation" action="" class="center">
+    <legend><strong>Add Character Affiliation</strong></legend>
+    <fieldset class="fields">
+      <label> Character </label> <select name="character_name" required>
+        <option value="">&nbsp;</option>
+        <!-- Build dropdown select for Characters -->
+        {% for character in characters_dropdown %}
+        <option value="{{ character['character_id'] }}"> {{character['character_name']}}</option>
+        <!-- End of this for loop -->
+        {% endfor %}
+      </select>
+      <label> Affiliation </label> <select name="affiliaton_name" required>
+        <option value="">&nbsp;</option>
+        <!-- Build dropdown select for Affiliations -->
+        {% for affilations in affilations_data_dropdown %}
+        <option value="{{ affilations['affiliation_id'] }}"> {{affilations['affiliation']}}</option>
+        <!-- End of this for loop -->
+        {% endfor %}
+      </select>
+
+    </fieldset>
+    <input class="button-49" type="submit" name="AddCharacterAffiliationButton" value="Add Character Affiliation"
+      style="width:300px">
+    <a href='/character_affiliations'><input class="button-49" type="button" value="Cancel"
+        href="/character_affiliations"></a>
+  </form>
+</div><!-- insert -->
+{% endblock %}
+</body>
+
+</html>

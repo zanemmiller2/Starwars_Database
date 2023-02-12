@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<!-- Modified from starter code provided in exploration from bsg_app-->
+
+<head>
+    <title>Delete Character</title>
+    <link href="../static/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body> {% extends "nav_bar.html" %}
+    {% block content %}
+    <!-- Delete Character -->
+    <div id="delete">
+        <form method="POST" id="deleteCharacter" action="/delete_character/{{character_data[0]['Character ID']}}"
+            class="center">
+            <legend><strong>Delete Character</strong></legend>
+            <fieldset class="fields">
+                <p>Are you sure you wish to delete the following?</p>
+                <input type="hidden" name="CharacterID" id="deleteCharacterID">
+                <label><strong>ID: {{character_data[0]['Character ID']}}</strong></label>
+                <label> <strong>Character Name: {{character_data[0]['Character Name']}}</strong></label>
+            </fieldset>
+            <input class="button-49" type="submit" name="DeleteCharacterButton" value=" Delete Character"
+                style="width:250px">
+            <a href='/characters'><input class="button-49" type="button" value="Cancel" href="/characters"></a>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Edit Planet</title>
+    <link href="../static/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+        <div id="delete_planet" style="display: block">
+            <form method="POST"
+                  id="deletePlanet"
+                  action="/delete_planet/{{planet_data[0]['planet_id']}}"
+                  class="center">
+                <legend><strong>Delete Planet</strong></legend>
+                <fieldset class="fields">
+                    <p>Are you sure you wish to delete the following?</p>
+                    <input type="hidden"
+                           name="planet_id"
+                           id="planet_id"
+                           value={{planet_data[0].planet_id}}>
+                    <label><strong>ID: </strong>{{planet_data[0].planet_id}}</label>
+                    <label> <strong>Planet Name: </strong>{{planet_data[0].planet_name}}</label>
+
+                </fieldset>
+                <input class="button-49small"
+                       type="submit"
+                       id="DeletePlanetButton"
+                       value="Delete">
+                <a href='/planets'><input class="button-49small"
+                                          type="button"
+                                          value="Cancel"></a>
+            </form>
+        </div><!-- delete -->
+        {% endblock %}
+    </body>
+</html>

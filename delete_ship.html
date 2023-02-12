@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <!-- Modified from starter code provided in exploration from bsg_app-->
+    <head>
+        <title>Delete Ship</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+  <body>    
+    {% extends "nav_bar.html" %}
+    {% block content %}
+    <!-- Delete Ship -->
+    <div id="delete">
+        <form method="POST" id="deleteShips" action="/delete_ship/{{ship_data[0]['Ship ID']}}" class="center">
+            <legend><strong>Delete Ship</strong></legend>
+                <fieldset class="fields">
+                    <p>Are you sure you wish to delete the following?</p>
+                    <input type="hidden" name="ShipsID" id="deleteShipsID">
+                    <label><strong>ID: {{ship_data[0]['Ship ID']}}</strong></label>
+                    <label><strong>Ship Name: {{ship_data[0]['Ship Name']}}</strong></label>
+                </fieldset>
+                <input class="button-49"
+                       type="submit"
+                       name="DeleteShipsButton"
+                       value="Delete Ship">
+                <a href='/ships'><input class="button-49"
+                                        type="button"
+                                        value="Cancel"
+                                        href="/ships"></a>
+            </form>
+        </div>
+           {% endblock %}
+    </body>
+</html>

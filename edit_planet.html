@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Edit Planet</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+        <div>
+            <div id="edit">
+                <!-- form to edit data in bsg_people-->
+                <form id="editPlanet"
+                      action="/edit_planet/{{planet_data[0]['planet_id']}}"
+                      method="post"
+                      class="center">
+                    <strong>Edit Planet</strong>
+                    <fieldset>
+                        <input type="hidden"
+                               value="{{planet_data[0]['planet_id']}}"
+                               class="form-control"
+                               id="planet_id"
+                               name="planet_id"
+                               required>
+
+                        <label for="planet_name">Planet name:</label>
+                        <input type="text"
+                               value="{{planet_data[0]['Planet Name']}}"
+                               class="form-control"
+                               id="planet_name"
+                               name="planet_name"
+                               pattern="[A-Za-z]{1, }"
+                               required>
+
+                        <label> Description:
+                        <textarea name="update_description" cols="25"
+                                  rows="5">{{planet_data[0].Description}}</textarea>
+                        </label>
+
+                        <label for="planet_region">Region:</label>
+                        <select class="form-control"
+                                id="planet_region"
+                                name="planet_region_id"
+                                required>
+                            {% for region in regions_dropdown %}
+                            {% if region['region_id'] == planet_data[0].region_id %}
+                            <option value="{{ region['region_id'] }}" selected>
+                                {{region['region_name']}}
+                            </option>
+                            {% else %}
+                            <option value="{{ region['region_id'] }}">
+                                {{region['region_name']}}
+                            </option>
+                            {% endif %}
+                            <!-- End of this for loop -->
+                            {% endfor %}
+                        </select>
+
+                        <label for="update_media_id"> First Appearance </label>
+                        <select name="update_media_id" id="update_media_id" required>
+                            <option value="-1">No First Appearance</option>
+                            {% for media in first_appearance %}
+                            {% if media['media_id'] == planet_data[0]['planet_first_appearance'] %}
+                            <option value={{media['media_id']}} selected>
+                                {{media['media_name']}}
+                            </option>
+                            {% else %}
+                            <option value={{media['media_id']}}>
+                                {{media['media_name']}}
+                            </option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+
+                        <label> Year of First Appearance
+                        <input type="number"
+                               min="1970"
+                               max="2099"
+                               step="1"
+                               value="{{planet_data[0].Year}}"
+                               name="update_year"
+                               readonly>
+                        </label>
+                    </fieldset>
+
+                    <input type="submit"
+                           value="Edit Planet"
+                           name="edit_planet"
+                           class="button-49small"
+                           style="margin:.5rem;">
+                    <a href='/planets'><input class="button-49small"
+                                              type="button"
+                                              value="Cancel Edit"></a>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+    </body>
+</html>

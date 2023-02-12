@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Modified from starter code provided in exploration from bsg_app-->
+    <head>
+        <title>Media</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+        <script language="JavaScript">
+            function showform(dowhat) {
+
+                if (dowhat === 'insert') {
+                    document.getElementById('browse').style.display = 'none';
+                    document.getElementById('insert').style.display = 'block';
+
+                } else { //by default display browse
+                    document.getElementById('browse').style.display = 'block';
+                    document.getElementById('insert').style.display = 'none';
+                }
+            }
+
+            function newMedia() {
+                showform('insert');
+            }
+
+            function browseMedia() {
+                showform('browse');
+            }
+
+        </script>
+    </head>
+
+    <body onload="browseMedia()">
+        <h1>Media</h1>
+
+        {% extends "nav_bar.html" %}
+        {% block content %}
+
+
+        <div id="browse">
+            <p></p>
+            <p></p>
+            <a class="button-49" href="#" onclick="newMedia()">Add New
+                                                               Media</a>
+            <table border="1" cellpadding="5" class="center">
+                <!-- Access data tuple passed from app.py -->
+                {% if medias %}
+                <thead>
+                    <tr>
+                        <!-- Make header row -->
+                        {% for key in medias[0].keys() %}
+                        <th scope="col"
+                            data-field="{{ key }}"
+                            data-filter-control="input">
+                            {{ key }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+
+                <tbody>
+                    <!-- Make data table -->
+                    {% for item in medias %}
+                    <tr>
+                        {% for key in item.keys() %}
+                        <td> {{item[key]}}</td>
+                        {% endfor %}
+
+                        <!-- Create our edit/delete buttons -->
+                        <td><a href="edit_media/{{item['ID']}}"
+                               class="button-49">Edit</a></td>
+                        <td><a href="delete_media/{{item['ID']}}"
+                               class="button-49">Delete</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+            </table>
+            <p></p>
+        </div>
+
+
+        <div id="insert">
+            <form method="POST" id="insertMedia" action="" class="center">
+                <legend><strong>Add Media</strong></legend>
+                <fieldset class="fields">
+                    <label> Media Name </label> <input type="text"
+                                                       name="media_name"
+                                                       pattern="[A-Za-z]{1, }"
+                                                       placeholder=""
+                                                       required>
+                    <label> Media Type </label> <select name="media_type_id"
+                                                        required>
+                    {% for media_type in media_types %}
+                    <option value={{media_type.media_type_id}}>
+                        {{media_type.media_type}}
+                    </option>
+                    {% endfor %}
+                </select>
+                    <label> Release Year </label><input type="number"
+                                                        min="1970"
+                                                        max="2099"
+                                                        step="1"
+                                                        name="year"
+                                                        required>
+                </fieldset>
+                <input class="button-49small"
+                       type="submit"
+                       id="Add_Media"
+                       value="Add Media">
+                <input class="button-49small"
+                       type="button"
+                       value="Cancel"
+                       onclick="browseMedia()">
+            </form>
+        </div><!-- insert -->
+        <p>&nbsp;</p>
+        {% endblock %}
+
+
+    </body>
+</html>
+

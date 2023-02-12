@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Modified from starter code provided in exploration from bsg_app-->
+    <head>
+        <title>Species</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+        <script language="JavaScript">
+            function showform(dowhat) {
+                /*
+                * four DIVS: browse, insert, update, delete
+                * this function sets one visible the others not
+                */
+                if (dowhat === 'insert') {
+                    document.getElementById('browse').style.display = 'none';
+                    document.getElementById('insert').style.display = 'block';
+
+                } else { //by default display browse
+                    document.getElementById('browse').style.display = 'block';
+                    document.getElementById('insert').style.display = 'none';
+
+                }
+            }
+
+            function newSpecies() {
+                showform('insert');
+            }
+
+            function browseSpecies() {
+                showform('browse');
+            }
+
+        </script>
+    </head>
+
+    <body onload="browseSpecies()">
+        <h1>Species</h1>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+        <p></p>
+        <p></p>
+        <div id="browse">
+            <p><a class="button-49" href="#" onclick="newSpecies()">Add New
+                                                                    Species</a>
+            </p>
+            <table border="1" cellpadding="5" class="center">
+                <!-- Access data tuple passed from app.py -->
+                {% if species %}
+                <thead>
+                    <tr>
+                        <!-- Create header row -->
+                        {% for key in species[0].keys() %}
+                        <th scope="col"
+                            data-field="{{ key }}"
+                            data-filter-control="input">
+                            {{ key }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+
+                <tbody>
+                    <!-- Make data table -->
+                    {% for item in species %}
+                    <tr>
+                        {% for key in item.keys() %}
+                        <td> {{item[key]}}</td>
+                        {% endfor %}
+
+                        <!-- Create our edit/delete buttons -->
+                        <td><a href="edit_species/{{item['ID']}}"
+                               class="button-49">Edit</a></td>
+                        <td><a href="delete_species/{{item['ID']}}"
+                               class="button-49">Delete</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+            </table>
+            <p></p>
+        </div>
+        <div id="insert">
+            <form method="POST"
+                  id="insertSpecies"
+                  action="/species"
+                  class="center">
+                <legend><strong>Add Species</strong></legend>
+                <fieldset class="fields">
+                    <label> Species Classification </label> <input type="text"
+                                                                   name="species_classification"
+                                                                   pattern="[A-Za-z]{1, }"
+                                                                   placeholder=""
+                                                                   required>
+                    <label for="species_planet">Species Planet of
+                                                Origin:</label>
+
+                    <select class="form-control"
+                            id="species_planet"
+                            name="species_planet">
+                        <!-- Access our homeworld tuple passed from app.py-->
+                        <option value="-1">Unknown</option>
+                        {% for planet in planets_dropdown %}
+                        <option value="{{ planet['planet_id'] }}">
+                            {{planet['planet_name']}}
+                        </option>
+                        {% endfor %}
+                        <option value="-2">Other -- Add New Planet</option>
+                    </select>
+
+
+                </fieldset>
+                <input class="button-49"
+                       type="submit"
+                       id="Add_Species"
+                       value="Add Species">
+                <input class="button-49"
+                       type="button"
+                       value="Cancel"
+                       onclick="browseSpecies()">
+            </form>
+        </div>
+
+
+        {% endblock %}
+    </body>
+</html>

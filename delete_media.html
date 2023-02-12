@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Delete Media</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+
+        <div id="delete_media" style="display: block">
+            <form method="POST"
+                  id="deleteMedia"
+                  action="/delete_media/{{media_data[0]['media_id']}}"
+                  class="center">
+                <legend><strong>Delete Media</strong></legend>
+                <fieldset class="fields">
+                    <p>Are you sure you wish to delete the following?</p>
+                    <input type="hidden"
+                           name="media_id"
+                           id="media_id"
+                           value={{media_data[0].media_id}}>
+                    <label><strong>ID: </strong>{{media_data[0].media_id}}</label>
+                    <label> <strong>Media Name: </strong>{{media_data[0].media_name}}</label>
+
+                </fieldset>
+                <input class="button-49small"
+                       type="submit"
+                       id="DeleteMediaButton"
+                       value="Delete">
+                <a href='/media'><input class="button-49small"
+                                        type="button"
+                                        value="Cancel"></a>
+            </form>
+        </div><!-- delete -->
+        {% endblock %}
+    </body>
+</html>

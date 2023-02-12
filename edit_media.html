@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Edit Media</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+        <div>
+            <div id="edit">
+                <!-- form to edit data in bsg_people-->
+                <form id="editPerson"
+                      action="/edit_media/{{media_data[0]['media_id']}}"
+                      method="post"
+                      class="center">
+                    <strong>Edit Media</strong>
+                    <fieldset>
+                        <input type="hidden"
+                               value="{{media_data[0]['media_id']}}"
+                               class="form-control"
+                               id="media_id"
+                               name="media_id"
+                               required>
+
+                        <label for="media_title">Media Title:</label>
+                        <input type="text"
+                               value="{{media_data[0]['Title']}}"
+                               class="form-control"
+                               id="media_title"
+                               name="media_title"
+                               pattern="[A-Za-z]{1, }"
+                               required>
+
+                        <label> Media Type
+                        <select name="media_type_id" required>
+                            {% for media_type in media_types %}
+                            {% if media_type['media_type_id'] == media_data[0]['media_type_id'] %}
+                            <option value={{media_type.media_type_id}}
+                                    selected>
+                                {{media_type.media_type}}
+                            </option>
+                            {% else %}
+                            <option value={{media_type.media_type_id}}>
+                                {{media_type.media_type}}
+                            </option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                            </label>
+
+                        <label> Release Year
+                        <input type="number"
+                               min="1970"
+                               max="2099"
+                               step="1"
+                               value="{{media_data[0]['Release Year']}}"
+                               name="update_year"
+                               required>
+                            </label>
+                    </fieldset>
+
+                    <input type="submit"
+                           value="Edit Media"
+                           name="edit_media"
+                           class="button-49small"
+                           style="margin:.5rem;">
+                    <a href='/media'><input class="button-49small"
+                                            type="button"
+                                            value="Cancel Edit"></a>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+    </body>
+</html>

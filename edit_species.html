@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Edit Species</title>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+        <div>
+            <div id="edit">
+                <!-- form to edit data in bsg_people-->
+                <form id="editSpecies"
+                      action="/edit_species/{{species_data[0]['ID']}}"
+                      method="post" class="center">
+                    <strong>Edit Species</strong>
+                    <fieldset>
+
+                        <input type="hidden"
+                               value="{{species_data[0]['ID']}}"
+                               class="form-control"
+                               id="species_id"
+                               name="species_id"
+                               required>
+
+                        <label for="species_classification">Species
+                                                            Classification:</label>
+                        <input type="text"
+                               value="{{species_data[0]['Species Classification']}}"
+                               class="form-control"
+                               id="species_classification"
+                               name="species_classification"
+                               pattern="[A-Za-z]{1, }"
+                               required>
+
+                        <label> Home planet
+                        <select name="planet_id">
+                            <option value="-1">None</option>
+                            {% for planet in planets %}
+                            {% if species_data[0]['species_home_planet'] ==
+                            planet['planet_id'] %}
+                            <option value={{planet.planet_id}} selected>
+                                {{planet.planet_name}}
+                            </option>
+                            {% else %}
+                            <option value={{planet.planet_id}}>
+                                {{planet.planet_name}}
+                            </option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                            </label>
+
+                    </fieldset>
+
+                    <input type="submit"
+                           value="Edit"
+                           name="edit_species"
+                           class="button-49small"
+                           style="margin:.5rem;">
+                    <a href='/species'><input class="button-49small"
+                                              type="button"
+                                              value="Cancel"></a>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+    </body>
+</html>

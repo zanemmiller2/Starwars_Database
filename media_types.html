@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Modified from starter code provided in exploration from bsg_app-->
+    <head>
+        <link href="../static/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <h1>Media Types Read Only Table</h1>
+        {% extends "nav_bar.html" %}
+        {% block content %}
+        <p></p>
+        <div id="browse">
+            <table border="1" cellpadding="5" class="center">
+                {% if media_types %}
+                <thead>
+                    <tr>
+                        <!-- Make header row -->
+                        {% for key in media_types[0].keys() %}
+
+                        <th scope="col"
+                            data-field="{{ key }}"
+                            data-filter-control="input">
+                            {{ key }}
+                        </th>
+                        <!-- End of this for loop -->
+                        {% endfor %}
+                    </tr>
+
+                <tbody>
+                    <!-- Make data table -->
+                    {% for item in media_types %}
+                    <tr>
+                        {% for key in item.keys() %}
+                        <td> {{item[key]}}</td>
+                        {% endfor %}
+
+
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+            </table>
+            <p>&nbsp;</p>
+        </div> <!-- browse -->
+        {% endblock %}
+    </body>
+</html>
